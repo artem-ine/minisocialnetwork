@@ -8,7 +8,8 @@ function Profile() {
   const [updatedProfile, setUpdatedProfile] = useState({
     username: "",
     email: "",
-    // Add other fields you want to update
+    description: "",
+    password: "",
   });
 
   useEffect(() => {
@@ -30,7 +31,8 @@ function Profile() {
           setUpdatedProfile({
             username: data.username,
             email: data.email,
-            id: data.id,
+            description: data.description,
+            password: data.password,
           });
         })
         .catch((error) => {
@@ -45,7 +47,8 @@ function Profile() {
     const updatedData = {
       username: updatedProfile.username,
       email: updatedProfile.email,
-      // Add other fields you want to update
+      description: updatedProfile.description,
+      password: updatedProfile.password,
     };
 
     fetch(`http://localhost:1337/api/users/${profileData.id}`, {
@@ -103,7 +106,32 @@ function Profile() {
                     />
                   </label>
                   <br />
-                  {/* Add other form fields for updating profile */}
+                  <label>
+                    Description:
+                    <input
+                      type="text"
+                      onChange={(e) =>
+                        setUpdatedProfile({
+                          ...updatedProfile,
+                          description: e.target.value,
+                        })
+                      }
+                    />
+                  </label>
+                  <br />
+                  <label>
+                    Password:
+                    <input
+                      type="text"
+                      onChange={(e) =>
+                        setUpdatedProfile({
+                          ...updatedProfile,
+                          password: e.target.value,
+                        })
+                      }
+                    />
+                  </label>
+                  <br />
                   <button type="submit">Update</button>
                   <button onClick={() => setEditing(false)}>Cancel</button>
                 </form>
@@ -112,7 +140,7 @@ function Profile() {
               <div>
                 <h2>Welcome to your profile, {profileData.username}!</h2>
                 <p>Email: {profileData.email}</p>
-                {/* Display other profile information as needed */}
+                <p>Description: {profileData.description}</p>
                 <button onClick={() => setEditing(true)}>Update Profile</button>
               </div>
             )}
