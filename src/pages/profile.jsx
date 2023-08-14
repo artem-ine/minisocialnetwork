@@ -1,12 +1,15 @@
-import useAuth from "../hooks/useAuth";
+import { useAuth } from "../jotai/store";
 
 function Profile() {
-  const isLoggedIn = useAuth({ authenticated: true });
+  const [auth] = useAuth();
+
+  if (!auth.isAuthenticated) {
+    return <p>Please log in to view your profile.</p>;
+  }
 
   return (
     <div>
-      <h2>Welcome to your profile.</h2>
-      {isLoggedIn ? <p>Success</p> : <p>Nope.</p>}
+      <h2>Welcome, {auth.user.username}!</h2>
     </div>
   );
 }

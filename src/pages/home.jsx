@@ -1,12 +1,17 @@
-import { useSelector } from "react-redux";
+import { useAuth } from "../jotai/store";
 
-const Home = () => {
-  const username = useSelector((state) => state.username);
-  const isAuthenticated = useSelector((state) => state.isAuthenticated);
+function Home() {
+  const [auth] = useAuth();
+
+  if (!auth.isAuthenticated) {
+    return <p>Welcome!</p>;
+  }
 
   return (
-    <div>{isAuthenticated ? <h1>Hello {username}</h1> : <h1>Hello</h1>}</div>
+    <div>
+      <h2>Welcome, {auth.user.username}!</h2>
+    </div>
   );
-};
+}
 
 export default Home;
