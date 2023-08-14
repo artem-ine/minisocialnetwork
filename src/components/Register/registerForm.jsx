@@ -1,30 +1,60 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAtom } from "jotai";
+import { authAtom } from "../../jotai/store";
+import useErrorHandler from "../../hooks/errorHandler";
 
 function RegisterForm() {
-  const dispatch = useDispatch();
-  const registrationError = useSelector((state) => state.auth.error);
+  const [, setAuth] = useAtom(authAtom);
+  const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleRegister = async () => {
-    const registrationData = { username, email, password };
+  const { error, showError, clearError } = useErrorHandler();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
     try {
-      const registeredUser = await dispatch(registerUser(registrationData));
-      if (registeredUser.payload) {
-        const loginData = { identifier: email, password };
-        await dispatch(loginUser(loginData));
+      const response = await fetch(
+        "http://localhost:1337/api/auth/local/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            username: username,
+            email: email,
+            password: password,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setAuth((prevAuth) => ({
+          ...prevAuth,
+          isAuthenticated: true,
+          user: data.user,
+          token: data.jwt,
+        }));
+        navigate("/profile");
+      } else {
+        const errorMessage = data.message || "Registration failed.";
+        showError(errorMessage);
       }
     } catch (error) {
-      console.error("Registration and login error:", error);
+      console.error(error);
+      showError("An error occurred during registration.");
     }
   };
 
   return (
-    <div>
-      <h2>Register</h2>
-      {registrationError && <p>Error: {registrationError.message}</p>}
+    <form onSubmit={handleSubmit}>
       <input
         type="text"
         placeholder="Username"
@@ -46,8 +76,9 @@ function RegisterForm() {
         onChange={(e) => setPassword(e.target.value)}
       />
       <br />
-      <button onClick={handleRegister}>Register</button>
-    </div>
+      <button type="submit">Register</button>
+      {error && <p className="error">{error}</p>}
+    </form>
   );
 }
 

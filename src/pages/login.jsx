@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../jotai/store";
 import { useNavigate } from "react-router-dom";
+import useErrorHandler from "../hooks/errorHandler";
 
 function Login() {
   const navigate = useNavigate();
@@ -8,6 +9,8 @@ function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [, setAuth] = useAuth();
+
+  const { error, showError, clearError } = useErrorHandler();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,11 +38,12 @@ function Login() {
         }));
         navigate("/profile");
       } else {
-        // Handle login error or show an error message
+        const errorMessage = data.message || "Login failed.";
+        showError(errorMessage);
       }
     } catch (error) {
       console.error(error);
-      console.log("An error occurred:", error.response);
+      showError("An error occurred during login.");
     }
   };
 
@@ -74,6 +78,7 @@ function Login() {
         <button type="submit" className="btn btn-primary">
           Login
         </button>
+        {error && <p className="error">{error}</p>}
       </form>
     </div>
   );
