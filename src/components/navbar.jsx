@@ -26,7 +26,6 @@ const Navbar = () => {
               <Link to="/profile">Profile</Link>
             </li>
             <li>
-              {/* Call the handleLogout function in response to user action */}
               <button onClick={handleLogout} className="btn btn-primary">
                 Logout
               </button>
