@@ -1,16 +1,16 @@
 import { useState } from "react";
-import { useAuth } from "../jotai/store";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 import useErrorHandler from "../hooks/errorHandler";
+import { useAuth } from "../jotai/useAuth";
 
 function Login() {
   const navigate = useNavigate();
-
+  const { setAuth } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [, setAuth] = useAuth();
 
-  const { error, showError, clearError } = useErrorHandler();
+  const { error, showError } = useErrorHandler();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,12 +30,14 @@ function Login() {
       const data = await response.json();
 
       if (response.ok) {
-        setAuth((prevAuth) => ({
-          ...prevAuth,
+        setAuth({
           isAuthenticated: true,
           user: data.user,
           token: data.jwt,
-        }));
+        });
+        const token = data.jwt;
+        Cookies.set("token", token);
+        console.log(data.jwt);
         navigate("/profile");
       } else {
         const errorMessage = data.message || "Login failed.";
@@ -83,4 +85,5 @@ function Login() {
     </div>
   );
 }
+
 export default Login;

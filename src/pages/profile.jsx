@@ -1,15 +1,19 @@
-import { useAuth } from "../jotai/store";
+import { useAuth } from "../jotai/useAuth"; // Import the updated useAuth hook
 
 function Profile() {
-  const [auth] = useAuth();
-
-  if (!auth.isAuthenticated) {
-    return <p>Please log in to view your profile.</p>;
-  }
+  const { auth } = useAuth();
 
   return (
     <div>
-      <h2>Welcome, {auth.user.username}!</h2>
+      {auth.isAuthenticated ? (
+        auth.user ? (
+          <h2>Welcome to your profile, {auth.user.username}!</h2>
+        ) : (
+          <p>Profile of authenticated user!</p>
+        )
+      ) : (
+        <p>No!</p>
+      )}
     </div>
   );
 }

@@ -1,15 +1,20 @@
-import { useAuth } from "../jotai/store";
+import React from "react";
+import { useAuth } from "../jotai/useAuth";
 
 function Home() {
-  const [auth] = useAuth();
-
-  if (!auth.isAuthenticated) {
-    return <p>Welcome!</p>;
-  }
+  const { auth } = useAuth();
 
   return (
     <div>
-      <h2>Welcome, {auth.user.username}!</h2>
+      {auth.isAuthenticated ? (
+        auth.user ? (
+          <h2>Welcome, {auth.user.username}!</h2>
+        ) : (
+          <p>Welcome authenticated user!</p>
+        )
+      ) : (
+        <p>Welcome!</p>
+      )}
     </div>
   );
 }

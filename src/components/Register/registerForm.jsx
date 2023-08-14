@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAtom } from "jotai";
-import { authAtom } from "../../jotai/store";
+import { useAuth } from "../../jotai/useAuth";
 import useErrorHandler from "../../hooks/errorHandler";
 
 function RegisterForm() {
-  const [, setAuth] = useAtom(authAtom);
+  const { setAuth } = useAuth();
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { error, showError, clearError } = useErrorHandler();
+  const { error, showError } = useErrorHandler();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
