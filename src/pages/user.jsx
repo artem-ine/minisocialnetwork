@@ -82,6 +82,10 @@ function UserProfile() {
               userPosts.map((post) => (
                 <div key={post.id}>
                   <p>Post: {post.attributes.text}</p>
+                  <p>
+                    Published by:{" "}
+                    {post.attributes.users.data[0].attributes.username}
+                  </p>
                   <p>Published at: {post.attributes.publishedAt}</p>
                 </div>
               ))
