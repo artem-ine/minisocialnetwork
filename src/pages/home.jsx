@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState } from "react";
 import { useAuth } from "../jotai/useAuth";
 import DisplayPost from "../components/posts/DisplayPost";
 import CreatePost from "../components/posts/CreatePost";
