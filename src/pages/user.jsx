@@ -1,6 +1,18 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../jotai/useAuth";
+
+function formatDateTime(dateTime) {
+  const options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  };
+  return new Date(dateTime).toLocaleString(undefined, options);
+}
 
 function UserProfile() {
   const { auth } = useAuth();
@@ -42,7 +54,7 @@ function UserProfile() {
 
           // Fetch user posts
           const postsResponse = await fetch(
-            `http://localhost:1337/api/posts?user.id=${userProfile.id}&populate=*`,
+            `http://localhost:1337/api/posts?populate=*`,
             {
               method: "GET",
               headers: {
@@ -57,7 +69,10 @@ function UserProfile() {
           }
 
           const userPostsData = await postsResponse.json();
-          setUserPosts(userPostsData.data);
+          const filteredPosts = userPostsData.data.filter(
+            (post) => post.attributes.user.data.id === userProfile.id
+          );
+          setUserPosts(filteredPosts);
         } else {
           console.error("User data is missing or empty.");
         }
@@ -84,9 +99,11 @@ function UserProfile() {
                   <p>Post: {post.attributes.text}</p>
                   <p>
                     Published by:{" "}
-                    {post.attributes.users.data[0].attributes.username}
+                    {post.attributes.user.data.attributes.username}
                   </p>
-                  <p>Published at: {post.attributes.publishedAt}</p>
+                  <p>
+                    Published at: {formatDateTime(post.attributes.publishedAt)}
+                  </p>
                 </div>
               ))
             ) : (

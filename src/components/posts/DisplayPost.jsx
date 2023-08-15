@@ -55,9 +55,9 @@ function DisplayPost() {
               <p>
                 Author:{" "}
                 <Link
-                  to={`/user/${post.attributes.users.data[0].attributes.username}`}
+                  to={`/user/${post.attributes.user.data.attributes.username}`}
                 >
-                  {post.attributes.users.data[0].attributes.username}
+                  {post.attributes.user.data.attributes.username}
                 </Link>
               </p>
             </div>

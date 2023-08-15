@@ -12,7 +12,7 @@ function CreatePost({ onPostCreated }) {
     const objectData = {
       data: {
         text: postText,
-        users: auth.user,
+        user: auth.user,
       },
     };
 
