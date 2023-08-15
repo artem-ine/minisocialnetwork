@@ -42,7 +42,7 @@ function UserProfile() {
 
           // Fetch user posts
           const postsResponse = await fetch(
-            `http://localhost:1337/api/posts?user.id=${userData[0].id}`,
+            `http://localhost:1337/api/posts?user.id=${userProfile.id}&populate=*`,
             {
               method: "GET",
               headers: {
@@ -67,7 +67,7 @@ function UserProfile() {
     };
 
     fetchData();
-  }, [auth.isAuthenticated, auth.token, username, jwtToken]);
+  }, [auth.isAuthenticated, auth.token, username, jwtToken, userProfile.id]);
 
   return (
     <div>

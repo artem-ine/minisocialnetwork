@@ -32,7 +32,7 @@ function Home() {
           <CreatePost onPostCreated={handlePostCreated} />
         </div>
       )}
-      {auth.isAuthenticated && <DisplayPost posts={posts} />}
+      <DisplayPost posts={posts} />
     </div>
   );
 }

@@ -63,7 +63,7 @@ function DisplayPost() {
             </div>
           ))
       ) : (
-        <p>No posts to display.</p>
+        <p>Log in or register to see what people have posted!</p>
       )}
     </div>
   );
