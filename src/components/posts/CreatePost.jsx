@@ -51,6 +51,7 @@ function CreatePost({ onPostCreated }) {
               value={postText}
               onChange={(e) => setPostText(e.target.value)}
             />
+            <br />
             <button type="submit">Post</button>
           </form>
         </div>

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../jotai/useAuth";
+import "./navbar.css";
 
 const Navbar = () => {
   const { auth, handleLogout } = useAuth();

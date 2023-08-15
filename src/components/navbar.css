@@ -1,0 +1,16 @@
+body {
+  display: initial !important;
+  place-items: initial !important;
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-around;
+  padding: 0;
+}
+
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}

@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../../jotai/useAuth";
 
 function DisplayPost() {
@@ -45,12 +46,22 @@ function DisplayPost() {
     <div>
       <h2>Posts</h2>
       {posts.length > 0 ? (
-        posts.map((post) => (
-          <div key={post.id}>
-            <p>{post.attributes.text}</p>
-            <p>Author: {post.attributes.users.data[0].attributes.username}</p>
-          </div>
-        ))
+        posts
+          .slice()
+          .reverse()
+          .map((post) => (
+            <div key={post.id}>
+              <p>Post: {post.attributes.text}</p>
+              <p>
+                Author:{" "}
+                <Link
+                  to={`/user/${post.attributes.users.data[0].attributes.username}`}
+                >
+                  {post.attributes.users.data[0].attributes.username}
+                </Link>
+              </p>
+            </div>
+          ))
       ) : (
         <p>No posts to display.</p>
       )}
