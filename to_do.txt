@@ -1,2 +1,5 @@
 -- private route
 -- link user with post
+-- folder hierarchy
+-- README
+-- error handling
