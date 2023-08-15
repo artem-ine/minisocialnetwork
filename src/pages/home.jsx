@@ -7,20 +7,7 @@ function Home() {
   const { auth } = useAuth();
   const [posts, setPosts] = useState([]);
 
-  // useEffect(() => {
-  //   // Fetch posts and set the state
-  //   fetch("http://localhost:1337/api/posts")
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setPosts(data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching posts:", error);
-  //     });
-  // }, []);
-
   const handlePostCreated = (newPost) => {
-    // Add the new post to the state
     setPosts([newPost, ...posts]);
   };
 
