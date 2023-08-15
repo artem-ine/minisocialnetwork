@@ -9,6 +9,13 @@ function CreatePost({ onPostCreated }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const objectData = {
+      data: {
+        text: postText,
+        users: auth.user,
+      },
+    };
+
     try {
       const jwtToken = auth.token;
 
@@ -18,10 +25,7 @@ function CreatePost({ onPostCreated }) {
           Authorization: `Bearer ${jwtToken}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          text: postText,
-          author: auth.user.id,
-        }),
+        body: JSON.stringify(objectData),
       });
 
       if (response.ok) {
@@ -29,7 +33,8 @@ function CreatePost({ onPostCreated }) {
         setPostText("");
         onPostCreated(newPost); // Notify parent component about the new post
       } else {
-        console.error("Error creating post");
+        const errorData = await response.json();
+        console.error("Error creating post:", errorData);
       }
     } catch (error) {
       console.error("Error creating post:", error);

@@ -48,7 +48,7 @@ function DisplayPost() {
         posts.map((post) => (
           <div key={post.id}>
             <p>{post.attributes.text}</p>
-            <p>Author: {post.attributes.user.data.attributes.username}</p>
+            <p>Author: {post.attributes.users.data[0].attributes.username}</p>
           </div>
         ))
       ) : (
