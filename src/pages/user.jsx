@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../jotai/useAuth";
 
@@ -31,7 +31,6 @@ function UserProfile() {
           return;
         }
 
-        // Fetch user profile
         const response = await fetch(
           `http://localhost:1337/api/users?filters[username]=${username}`,
           {
